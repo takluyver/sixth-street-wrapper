@@ -21,7 +21,34 @@ Instal into your Python project using the tools you are familiar with and consis
 
 ### Usage Example
 
-- a usage example
+Stocker can be used generally in two different ways:
+
+1. If you will be making more than one request for the same symbol, you may wish to initialize the library with the Alpha Vantage Api key and the symbol you plan to work with.
+
+Then your calls to `lookup`, `min`, `max` are simplified to focus on the parameters that are relevant to that function:
+
+```python
+msftStocker = stocker.Stocker("YOUR_ALPHAVANTAGE_API_KEY", "MSFT")
+result = msftStocker.lookup("2023-09-01")
+print(result)
+# prints: {'1. open': '331.3100', '2. high': '331.9900', '3. low': '326.7800', '4. close': '328.6600', '5. volume': '14942024'}
+
+min5 = msftStocker.min(5)
+print(min5)
+# prints: 281.96
+
+max5 = msftStocker.max(5)
+print(max5)
+# prints: 331.99
+```
+
+2. If you will not be focusing on a particular symbol, initialize with only the api key:
+
+```python
+st = stocker.Stocker("YOUR_ALPHAVANTAGE_API_KEY").lookup("2023-09-01", "MSFT")
+print(result)
+# prints: {'1. open': '331.3100', '2. high': '331.9900', '3. low': '326.7800', '4. close': '328.6600', '5. volume': '14942024'}
+```
 
 ### Discussion
 
