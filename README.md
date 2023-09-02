@@ -19,6 +19,25 @@ To publish to test pypi `flit publish --pypirc ./.pypirc --repository testpypi`
 
 Instal into your Python project using the tools you are familiar with and consistent with the package installation you are using for other dependencies.
 
+### Usage Example
+
+- a usage example
+
+### Discussion
+
+As with any new tool that is introduced to a team of people, there are technical and soft constraints to consider. Care needs to be taken that the folks are on board and interested in augmenting their workflow. This could be because the tool is a breeze to set up and has zero onboarding (great!), or because the existing process has problems that are worse than the initial investment in updating their toolset/processes or because the Org is ready to grow and the current ways of operating aren't scaling well (think about onboarding experience while scaling up the team, the ability for security to effectively do their job, or leadership being go after some new business goal).
+
+Without having much information about the existing tools and familiarity or some of the incentives the team and or management is experiencing, it's difficult to say with much certainty what a good first step towards the ultimate goal would be. That being said, with the time constraints I have and my python being rusty, I have documented some of the ways we could approach building libraries. I have started with a python template provided by Microsoft to jumpstart this project. This template has many useful features that are mentioned more in depth below - some of which I believe most python folks are already using (like Black) and some that could be new and potentially disruptive (working in vscode .devcontainer dockerized environment).
+
+### Compromises
+
+- I would like to research more in depth some of the configurations and be more knowledgeable about different options for example private package managers.
+-
+
+#### Library Versioning Approach
+
+Assuming I have buy in from the folks maintaining the library, myself or otherwise, I would automate release versioning based on semantic commits. [Pythong Semantic Release](https://python-semantic-release.readthedocs.io/en/latest/) appears to be an open source project that meets the needs. For the unfamiliar, this works to automate the versioning of the library by reading in the commits (semantic commits) and if there are any that trigger certain rules, the version is updated and a 'release' can be created in the version control system.
+
 ## Project Organization
 
 - `.github/workflows`: Contains GitHub Actions used for building, testing, and publishing.
