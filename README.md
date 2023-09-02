@@ -54,12 +54,42 @@ print(result)
 
 As with any new tool that is introduced to a team of people, there are technical and soft constraints to consider. Care needs to be taken that the folks are on board and interested in augmenting their workflow. This could be because the tool is a breeze to set up and has zero onboarding (great!), or because the existing process has problems that are worse than the initial investment in updating their toolset/processes or because the Org is ready to grow and the current ways of operating aren't scaling well (think about onboarding experience while scaling up the team, the ability for security to effectively do their job, or leadership being go after some new business goal).
 
-Without having much information about the existing tools and familiarity or some of the incentives the team and or management is experiencing, it's difficult to say with much certainty what a good first step towards the ultimate goal would be. That being said, with the time constraints I have and my python being rusty, I have documented some of the ways we could approach building libraries. I have started with a python template provided by Microsoft to jumpstart this project. This template has many useful features that are mentioned more in depth below - some of which I believe most python folks are already using (like Black) and some that could be new and potentially disruptive (working in vscode .devcontainer dockerized environment).
+Without having much information about the existing tools and familiarity or some of the incentives the team and or management is experiencing, it's difficult to say with much certainty what a good first step towards the ultimate goal would be. That being said, with the time constraints I have and my python being rusty, I have documented some of the ways we could approach building libraries. I have started with a python template provided by Microsoft to jump start this project. This template has many useful features that are mentioned more in depth below - some of which I believe most python folks are already using (like Black) and some that could be new and potentially disruptive (working in vscode .devcontainer dockerized environment).
 
 ### Compromises
 
-- I would like to research more in depth some of the configurations and be more knowledgeable about different options for example private package managers.
--
+- I would like to research more in depth most things in python and be more knowledgeable about different options for example private package managers, or the standard that python uses for libraries.
+- Similarly, I'm not familiar with python mocking and testing so no tests have been written. I simply used `python3 __main__.py` to check the code worked and that's not a great experience long term.
+- All the code is in one file - 3 methods are simple enough that they don't need to be broken out, but further thought needs to be made for more use cases (40 methods, more providers than alpha vantage, etc)
+- Without knowing the specifics around the use cases, I would like to add in caching for the api requests to be faster, possibly reducing costs from using the alpha vantage API.
+- Caching the api requests would also help ensure the data was sorted only once the first time we fetched it rather than each api request.
+- Depending on use cases if multiple libraries are written for each provider or if this wrapper only supports alpha vantage, it would be interesting to see if there should be a unified sixth street wrapper that fetches and combines data from multiple sources into one output.
+- The error handling is non-existent. If something is not configured with the api correctly, the user will have a very hard time figuring that out. If a request failed for some reason, that error response is not being forwarded along to give some guidance as to what could fix the request (for example rate limiting, or missing api key)
+- There is no way to set the function we are using for Alpha Vantage - this is hard coded to "Time Series (Daily)".
+
+#### Service vs Library
+
+If this were going to be a service rather than a library there would be many more concerns around:
+
+- hosting
+- security (authentication), who is allowed to use our api
+- is python the best framework for this service, the language is not as important to the users if it's not a library anymore.
+- the initialization and passing in of API keys would no longer be necessary by users, but a framework would need to be added to handle routing, startup execution, possibly a database, redis for caching, etc.
+- retrieving data from multiple data sources and combining would be much easier since users can remain unaware of where the data is coming from
+- caching and sharing amongst all users would be easier and enable polling to update the data
+- outages at Alpha Vantage would be less impactful to our users if we had cached data
+
+### Time
+
+Hours upon hours were spent researching python in general, library specifications, and tools that folks use commonly. Eventually I found the microsoft template and offloaded most of the decision making to the folks that created that template which seems to be a safe choice for now. Writing the actual functions after doing research was pretty quick, possibly an hour and this writeup was probably at half hour, but was good to organize my thoughts.
+
+I did publish to pypi and test pypi while following a tutorial so that is possible and straightforward using flit, but I have not done it again for this repository and would have liked to.
+
+### General Feedback
+
+It was fun and interesting creating a python library. Dependency management seems vitally important. At times I took a shortcut and just installed packages globally, which is a bad idea. I am curious to see the usual workflow for engineers/data scientists that would be using this library (or one similar). What they are used to doing, and how they might contribute effectively to a new library and have a pleasant experience.
+
+There are so many competing tools in python that it was difficult to pick which was best.
 
 #### Library Versioning Approach
 
